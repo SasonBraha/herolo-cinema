@@ -34,18 +34,25 @@
       }, () => this.updateReduxForm());
     }
 
+    updateGenresState = () => {
+      const { genres, inputValue } = this.state;
+      if (inputValue.length) {
+        this.setState({
+          genres: [...genres, inputValue]
+        }, () => {
+          this.updateReduxForm();
+          this.setState({ inputValue: '' })
+        }); 
+      }
+    }
+
     handleKeyDown = e => {
       const { genres, inputValue } = this.state;
       const isEnter = e.which === 13;
       const isTab = e.which === 9;
       if (isEnter || isTab) {
         if (inputValue.length) {
-          this.setState({
-            genres: [...genres, inputValue]
-          }, () => {
-            this.updateReduxForm();
-            this.setState({ inputValue: '' })
-          }); 
+          this.updateGenresState();
           // Prevent Form Submission / Tab To Next Element
           e.preventDefault();
         }
@@ -68,17 +75,20 @@
                 </StyledGenreTag>
               ))
             }
-            <StyledInput 
-              {...this.props.input}
-              value={this.state.inputValue}
-              onChange={this.handleChange}
-              onKeyDown={this.handleKeyDown}
-              // Override redux-form blur function to prevent field value reset
-              onBlur={() => null}
-              placeholder="Add genre"
-              showError={isAddMovie ? touched && error : error}
-              shouldShrink={this.state.genres.length > 0}
-            />
+            <div>
+              <StyledInput 
+                {...this.props.input}
+                value={this.state.inputValue}
+                onChange={this.handleChange}
+                onKeyDown={this.handleKeyDown}
+                // Override redux-form blur function to prevent field value reset
+                onBlur={() => null}
+                placeholder="Add genre"
+                showError={isAddMovie ? touched && error : error}
+                shouldShrink={this.state.genres.length > 0}
+              />
+              <StyledAddGenreMobile onClick={this.updateGenresState}>Add</StyledAddGenreMobile>
+            </div>
           </StyledGenresEditor>
         </>
       );
@@ -115,7 +125,7 @@
   const StyledInput = styled.input`
     padding: .9rem .5rem;
     border-radius: .5rem;
-    margin: 0 .4rem .5rem 0;
+    margin: 0 0 .5rem 0;
     border: none;
     outline: none;
     flex: 1;
@@ -123,6 +133,11 @@
     font-family: inherit;
     border: .1rem solid transparent;
     max-width: 11rem;
+    
+    @media(max-width: 992px) {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
 
     ${({ showError }) => showError && css`
       border-color: var(--danger-color);
@@ -130,6 +145,18 @@
 
     ${({ shouldShrink }) => shouldShrink && css`
     `}
+  `;
+
+  const StyledAddGenreMobile = styled(StyledGenreTag)`
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    padding: 0.45rem .7rem;
+    transform: translateY(.1rem);
+    display: none;
+
+    @media(max-width: 992px) {
+      display: inline-block;
+    }
   `;
 
   export default GenreInput;

@@ -32,7 +32,7 @@ export const validateForm = (formValues, props) => {
   const currentYear = new Date().getFullYear();
   const firstMovieDebut = 1888;
   const yearInputValue = parseInt(Year);
-  if (!(yearInputValue >= firstMovieDebut && yearInputValue <= currentYear)) {
+  if (!(yearInputValue >= firstMovieDebut && yearInputValue <= currentYear) || isNaN(Year)) {
     errors.Year = `Valid year is between ${firstMovieDebut} and ${currentYear}`;
   }
 
