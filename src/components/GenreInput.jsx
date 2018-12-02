@@ -1,10 +1,14 @@
   import React, { Component } from 'react';
   import styled, { css } from 'styled-components';
-
+  
   class GenreInput extends Component {
     state = {
       genres: [...this.props.input.value] || [],
       inputValue: ''
+    }
+    
+    componentDidMount() {
+      this.updateReduxForm();
     }
 
     updateReduxForm = () => {
@@ -13,25 +17,8 @@
       this.props.input.onChange(genres);
       
       if (!genres.length) {
-        // Force redux-form to re-validate
         this.props.manualValidate();
       }
-    }
-
-    componentDidMount() {
-      this.updateReduxForm();
-    }
-
-    handleChange = e => {
-      this.setState({ inputValue: e.target.value });
-    }
-
-    removeGenre = index => {
-      const newState = [...this.state.genres];
-      newState.splice(index, 1);
-      this.setState({
-        genres: newState
-      }, () => this.updateReduxForm());
     }
 
     updateGenresState = () => {
@@ -45,9 +32,19 @@
         }); 
       }
     }
+    
+    removeGenre = index => {
+      const newState = [...this.state.genres];
+      newState.splice(index, 1);
+      this.setState({ genres: newState }, () => this.updateReduxForm());
+    }
+
+    handleChange = e => {
+      this.setState({ inputValue: e.target.value });
+    }
 
     handleKeyDown = e => {
-      const { genres, inputValue } = this.state;
+      const { inputValue } = this.state;
       const isEnter = e.which === 13;
       const isTab = e.which === 9;
       if (isEnter || isTab) {
@@ -81,7 +78,7 @@
                 value={this.state.inputValue}
                 onChange={this.handleChange}
                 onKeyDown={this.handleKeyDown}
-                // Override redux-form blur function to prevent field value reset
+                // Override redux-form blur function to prevent value reset
                 onBlur={() => null}
                 placeholder="Add genre"
                 showError={isAddMovie ? touched && error : error}
