@@ -27,7 +27,7 @@ export const validateForm = (formValues, props) => {
 
   // Check for ONLY non-alphanumeric title
   if (serializeString(Title) === '') {
-    errors.Title = 'At least one letter is required.';
+    errors.Title = 'At least one english letter is required.';
   }
 
   // Check for valid year
@@ -54,7 +54,7 @@ export const validateForm = (formValues, props) => {
     if (formValues[field] && !formValues[field].trim().length) {
       errors[field] = `Field "${field}" is required.`;
     }
-
+    
     if (!formValues[field]) errors[field] = `Field "${field}" is required.`;
   });
 
@@ -66,4 +66,6 @@ export const generateId = () => `${Date.now().toString()}`;
 export const serializeTitle = title => serializeString(title)
   .split(' ')
   .map(char => char[0].toUpperCase() + char.substr(1))
-  .join(' ')
+  .join(' ');
+
+export const trimForm = form => JSON.parse(JSON.stringify(form).replace(/"\s+|\s+"/g,'"'));

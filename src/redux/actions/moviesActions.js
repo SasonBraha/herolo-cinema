@@ -11,7 +11,7 @@ import {
   ADD_MOVIE
 } from '../reduxConstants';
 import { reset as reduxFormReset } from 'redux-form';
-import { generateId, serializeTitle } from '../../utils'; 
+import { generateId, serializeTitle, trimForm } from '../../utils'; 
 import { API_URL } from '../../utils/config';
 import { setToast } from './';
 
@@ -64,7 +64,7 @@ export const updateMovieItems = formValues => dispatch => {
   dispatch({
     type: UPDATE_MOVIE_ITEMS, 
     payload: {
-      ...formValues,
+      ...trimForm(formValues),
       Title: serializeTitle(formValues.Title)
     }
   });
@@ -77,7 +77,7 @@ export const addMovie = formValues => dispatch => {
     type: ADD_MOVIE,
     payload: {
       id: generateId(),
-      ...formValues,
+      ...trimForm(formValues),
       Title: serializeTitle(formValues.Title)
     }
   });

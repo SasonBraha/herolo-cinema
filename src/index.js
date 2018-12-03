@@ -16,4 +16,4 @@ ReactDOM.render(
   document.getElementById('reactMount')
 );
 
-serviceWorker.register();
+serviceWorker.unregister();
