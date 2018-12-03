@@ -18,22 +18,24 @@ class MovieItem extends Component {
     const { id, Title, Year, Runtime, Genres, Director } = this.props.movieItem;
     return (
       <StyledMovieItem>
-        <h3>
+        <h3 className="Title">
           {Title} 
           <StyledYear>({Year})</StyledYear>
         </h3>
-
-        { Genres.map((genre, i) => <StyledGenreTag key={i}>{genre}</StyledGenreTag>) }
-
-        <div>{Runtime}min</div>
-
-        <div>
+        <div className="Genres">
+          { 
+            Genres.map((genre, i) => (
+              <StyledGenreTag key={i}>{genre}</StyledGenreTag>
+            )) 
+          }
+        </div>
+        <div className="Runtime">{Runtime}min</div>
+        <div className="Director">
           <StyledDirector>Director: </StyledDirector>
           {Director}
         </div>
+        <StyledMovieId>#m{id.substr(8)}</StyledMovieId>
 
-        <StyledMovieId>#{id}</StyledMovieId>
-        
         <StyledOptions onClick={this.handleDropdown}>
           <StyledOptionsIcon>
             <use xlinkHref="./sprite.svg#icon-list2"></use>

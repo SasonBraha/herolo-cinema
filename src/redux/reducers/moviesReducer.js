@@ -15,8 +15,7 @@ const initialState = {
   selectedMovie: {},
   showAddModal:  false,
   showDeleteModal: false,
-  showEditModal: false,
-  isFetching: false
+  showEditModal: false
 }
 
 export default (state = initialState, action) => {

@@ -12,10 +12,12 @@ export const validateForm = (formValues, props) => {
   const duplicateErrorMessage = 'A movie with the same title is already exists, please choose another';
   const movieItemsArray = Object.values(props.movieItems);
   for(let movie of movieItemsArray) {
+    // Duplicate validation when editing (id to compare)
     if (currentMovieId) {
       if (serializeString(Title) === serializeString(movie.Title) && currentMovieId !== movie.id) {
         errors.Title = duplicateErrorMessage;
       }
+      // Duplicate validation when adding new movie
     } else {
       if (serializeString(Title) === serializeString(movie.Title)) {
         errors.Title = duplicateErrorMessage;
@@ -53,7 +55,7 @@ export const validateForm = (formValues, props) => {
   return errors;
 }
 
-export const generateId = () => `m${Date.now().toString().substr(6)}`;
+export const generateId = () => `${Date.now().toString()}`;
 
 export const serializeTitle = title => serializeString(title)
   .split(' ')

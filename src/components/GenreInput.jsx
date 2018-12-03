@@ -13,12 +13,9 @@
 
     updateReduxForm = () => {
       const { genres } = this.state;
-      // Pass { Array<genres> } To Reudx-Form
+      // Add { Array<genres> } to reudx-form
       this.props.input.onChange(genres);
-      
-      if (!genres.length) {
-        this.props.manualValidate();
-      }
+      if (!genres.length) this.props.manualValidate();
     }
 
     updateGenresState = () => {
@@ -44,17 +41,16 @@
     }
 
     handleKeyDown = e => {
-      const { inputValue } = this.state;
-      const isEnter = e.which === 13;
-      const isTab = e.which === 9;
-      if (isEnter || isTab) {
-        if (inputValue.length) {
+      const isEnterPressed = e.which === 13;
+      const isTabPressed = e.which === 9;
+      if (isEnterPressed || isTabPressed) {
+        if (this.state.inputValue.length) {
           this.updateGenresState();
-          // Prevent Form Submission / Tab To Next Element
+          // Prevent form submission / tab to next element
           e.preventDefault();
         }
-        // Prevent submission only if input is empty
-        isEnter && e.preventDefault();
+        // Prevent only submission if input is empty
+        isEnterPressed && e.preventDefault();
       }
       
     }
@@ -82,7 +78,6 @@
                 onBlur={() => null}
                 placeholder="Add genre"
                 showError={isAddMovie ? touched && error : error}
-                shouldShrink={this.state.genres.length > 0}
               />
               <StyledAddGenreMobile onClick={this.updateGenresState}>Add</StyledAddGenreMobile>
             </div>
@@ -105,7 +100,7 @@
     border-radius: .5rem;
     color: white;
     box-shadow: 0 .2rem .5rem rgba(0, 0, 0, .2);
-    padding: .4rem .7rem;
+    padding: .63rem .7rem;
     margin: 0 .8rem .8rem 0;
   `;
 
@@ -128,32 +123,23 @@
     flex: 1;
     box-shadow: 0 .1rem .6rem rgba(0, 0, 0, .2);
     font-family: inherit;
-    border: .1rem solid transparent;
+    border: .2rem solid transparent;
     max-width: 11rem;
-    
-    @media(max-width: 992px) {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-    }
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
 
     ${({ showError }) => showError && css`
       border-color: var(--danger-color);
-    `}
-
-    ${({ shouldShrink }) => shouldShrink && css`
     `}
   `;
 
   const StyledAddGenreMobile = styled(StyledGenreTag)`
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
-    padding: 0.45rem .7rem;
-    transform: translateY(.1rem);
-    display: none;
-
-    @media(max-width: 992px) {
-      display: inline-block;
-    }
+    padding: .55rem .7rem;
+    transform: translateY(.12rem);
+    box-shadow: 0 .1rem .6rem rgba(0, 0, 0, .2);
+    cursor: pointer;
   `;
 
   export default GenreInput;

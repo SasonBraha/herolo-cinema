@@ -8,11 +8,10 @@ const Movies = ({ movieItems }) => (
   <StyledMovies>
     {
       Object.keys(movieItems).length 
-        ? Object.values(movieItems).map((movieItem, i) => <MovieItem key={i} movieItem={movieItem} />) 
+        ? Object.values(movieItems).map(movieItem => <MovieItem key={movieItem.id} movieItem={movieItem} />) 
         : Array.from({ length: 10 }).map((_, i) => <MoviesLoader key={i} />)
     }
   </StyledMovies>
-  
 );
 
 const StyledMovies = styled.div`
