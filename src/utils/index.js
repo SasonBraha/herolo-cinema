@@ -50,7 +50,13 @@ export const validateForm = (formValues, props) => {
   }
 
   // Check for empty fields
-  formFields.forEach(field => !formValues[field] ? errors[field] = `Field "${field}" is required.` : false);
+  formFields.forEach(field => {
+    if (formValues[field] && !formValues[field].trim().length) {
+      errors[field] = `Field "${field}" is required.`;
+    }
+
+    if (!formValues[field]) errors[field] = `Field "${field}" is required.`;
+  });
 
   return errors;
 }

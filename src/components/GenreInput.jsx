@@ -20,9 +20,10 @@
 
     updateGenresState = () => {
       const { genres, inputValue } = this.state;
-      if (inputValue.length) {
+      const trimmedValue = inputValue.trim();
+      if (trimmedValue.length) {
         this.setState({
-          genres: [...genres, inputValue]
+          genres: [...genres, trimmedValue]
         }, () => {
           this.updateReduxForm();
           this.setState({ inputValue: '' })
